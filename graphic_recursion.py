@@ -1,14 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Este programa faz bastante uso da biblioteca tkinter e da
-classe Canvas. Há um bom tutorial sobre este assunto no endereço
-http://effbot.org/tkinterbook/canvas.htm
-
-Existe uma referência aqui:
-http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
-
-"""
-
 
 from tkinter import *
 import random
@@ -18,20 +8,25 @@ canvas = Canvas(window, width = 500, height = 400) # área para desenha
 canvas.pack()
 
 
-def sierpinski(a, b, c, n):
+def sierpinski(x1, y1, x2, y2, x3, y3, n):
+    """
+    Função recursiva que computa triângulo de Sierpinski
+    :param n: Número de recursões
+    """
     if n == 0:
-        canvas.create_line(a[0],a[1], b[0], b[1])
-        canvas.create_line(b[0],b[1], c[0], c[1])
-        canvas.create_line(c[0],c[1], a[0], a[1])
+        canvas.create_line(x1, y1, x2, y2)
+        canvas.create_line(x2, y2, x3, y3)
+        canvas.create_line(x3, y3, x1, y1)
     else:
-        sierpinski()
+        sierpinski(x1, y1, (x1 + x2)/2, (y1 + y2)/2, (x1 + x3)/2, (y1 + y3)/2, n-1)
+        sierpinski((x1 + x2)/2, (y1 + y2)/2, x2, y2, (x2 + x3)/2, (y2 + y3)/2, n-1)
+        sierpinski((x1 + x3)/2, (y1 + y3)/2, (x2 + x3)/2, (y2 + y3)/2, x3, y3, n-1)
 
 
+a = (250,100)
+b = (350,300)
+c = (150, 300)
 
-
-
-canvas.create_line(0,0, 200,200)
-
-
+sierpinski(a[0], a[1], b[0], b[1], c[0], c[1], 4)
 
 window.mainloop()
